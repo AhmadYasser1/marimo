@@ -3335,15 +3335,11 @@ def launch_kernel(
             )
             if isinstance(request, StopKernelCommand):
                 break
-            elif isinstance(
-                request, (UpdateUIElementCommand, ModelCommand)
-            ):
+            elif isinstance(request, (UpdateUIElementCommand, ModelCommand)):
                 # Drain the shared queue and merge pending requests:
                 # - UI element updates: last-write-wins per element ID
                 # - Model commands: last-write-wins per model ID
-                merged = ui_element_request_mgr.process_request(
-                    request
-                )
+                merged = ui_element_request_mgr.process_request(request)
                 for r in merged:
                     await kernel.handle_message(r)
                 continue

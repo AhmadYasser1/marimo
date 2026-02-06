@@ -22,8 +22,7 @@ class SetUIElementRequestManager:
     def __init__(
         self,
         set_ui_element_queue: (
-            QueueType[BatchableCommand]
-            | asyncio.Queue[BatchableCommand]
+            QueueType[BatchableCommand] | asyncio.Queue[BatchableCommand]
         ),
     ) -> None:
         self._set_ui_element_queue = set_ui_element_queue
@@ -99,9 +98,7 @@ class SetUIElementRequestManager:
         # root path component matches that key.
         BufferPath = tuple[Union[str, int], ...]
         model_state: dict[WidgetModelId, dict[str, Any]] = {}
-        model_buffers: dict[
-            WidgetModelId, dict[BufferPath, bytes]
-        ] = {}
+        model_buffers: dict[WidgetModelId, dict[BufferPath, bytes]] = {}
 
         for cmd in commands:
             if not isinstance(cmd, ModelCommand):
@@ -124,9 +121,7 @@ class SetUIElementRequestManager:
                 }
                 # Merge state and buffers
                 model_state[mid].update(cmd.message.state)
-                for path, buf in zip(
-                    cmd.message.buffer_paths, cmd.buffers
-                ):
+                for path, buf in zip(cmd.message.buffer_paths, cmd.buffers):
                     model_buffers[mid][tuple(path)] = buf
 
         for mid in model_state:
